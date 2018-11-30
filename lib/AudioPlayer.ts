@@ -13,6 +13,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
     private _isPlaying = false;
     private _isPaused = false;
     private _isMuted = false;
+    private _currentVolume = 100;
 
     constructor() {
         super();
@@ -78,7 +79,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
             }
         }
     }
-    public unmute(): void {
+    public unMute(): void {
         if (!this._audioProcess) {
             this.emit('error', new Error('No audio source to unmute'));
         } else {
@@ -89,6 +90,28 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
                 this.emit('unmute');
             }
         }
+    }
+
+    public setVolume(volRel: number): void {
+        if (!volRel) {
+            this.emit('error', new Error('invalid volume argument, should between 0 and 100'));
+        }
+        if (volRel < 0) {
+            volRel = 0;
+        }
+        if (volRel > 100) {
+            volRel = 100;
+        }
+        this._currentVolume = volRel;
+        if (this._audioProcess) {
+            this._audioProcess.stdin.write('set_property volume ' + this._currentVolume + '\n');
+        }
+    }
+    private reset(): void {
+        this._currentVolume = 100;
+        this._isPlaying = false;
+        this._isMuted = false;
+        this._isPaused = false;
     }
 
     private handlePlay(path: string, options: any): void {
@@ -116,15 +139,13 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
 
         this._audioProcess.on('exit', (code: number | null, signal: string | null) => {
             console.log('child process exited with ' + 'code ${code} and signal ${signal}');
-            this._isPlaying = false;
-            this._isPaused = false;
+            this.reset();
             this.emit('exit');
         });
 
         this._audioProcess.on('close', (code: number, signal: string) => {
             console.log('child process closed with ' + 'code ${code} and signal ${signal}');
-            this._isPlaying = false;
-            this._isPaused = false;
+            this.reset();
             this.emit('close');
         });
 
@@ -137,5 +158,6 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
             console.log('child process error', err);
             this.emit('error', err);
         });
+
     }
 }

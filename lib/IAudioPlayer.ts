@@ -4,5 +4,6 @@ export interface IAudioPlayer {
     resume(): void;
     stop(): void;
     mute(): void;
-    unmute(): void;
+    unMute(): void;
+    setVolume(value: number): void;
 }

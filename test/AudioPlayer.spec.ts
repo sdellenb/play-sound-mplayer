@@ -22,14 +22,24 @@ describe('audioplayer tests', () => {
             player.resume();
         }, 5000);
     });
-    it('mute/unmute', () => {
+    xit('mute/unmute', () => {
         // const process = player.play('e:/asound.wav', {});
         const process = player.play('http://www.kozco.com/tech/organfinale.mp3', {});
         setTimeout(() => {
             player.mute();
         }, 2000);
         setTimeout(() => {
-            player.unmute();
+            player.unMute();
+        }, 5000);
+    });
+    it('setVolume', () => {
+        // const process = player.play('e:/asound.wav', {});
+        const process = player.play('http://www.kozco.com/tech/organfinale.mp3', {});
+        setTimeout(() => {
+            player.setVolume(30);
+        }, 2000);
+        setTimeout(() => {
+            player.setVolume(90);
         }, 5000);
     });
 });
