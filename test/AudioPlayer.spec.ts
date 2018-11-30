@@ -14,6 +14,12 @@ describe('audioplayer tests', () => {
     //http://www.kozco.com/tech/organfinale.mp3
     it('play', () => {
         // const process = player.play('e:/asound.wav', {});
-        const process = player.play('http://www.kozco.com/tech/organfinale.mp3', {})
+        const process = player.play('http://www.kozco.com/tech/organfinale.mp3', {});
+        setTimeout(() => {
+            player.pause();
+        }, 2000);
+        setTimeout(() => {
+            player.resume();
+        }, 5000);
     });
 });

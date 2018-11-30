@@ -8,9 +8,10 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
     private static readonly KEYWORD_EXITING = 'Exiting...';
 
     private _player = 'mplayer';
-    private _audioProcess: ChildProcess | null = null;;
+    private _audioProcess: ChildProcess | null = null;
 
-    private isPaused = false;
+    private _isPlaying = false;
+    private _isPaused = false;
 
     constructor() {
         super();
@@ -19,20 +20,54 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
     public play(path: string, options: any): void {
         options = typeof options === 'object' ? options : {};
         options.stdio = ['pipe', 'pipe', 'pipe'];
-        options.shell = true;
+        options.shell = false;  // required for stopping
         if (!path) {
             this.emit('error', new Error('No audio source specified'));
+        } else {
+            this._isPlaying = true;
+            this.handlePlay(path, options);
         }
-        this.handlePlay(path, options);
     }
 
-    pause(): void {}
-    resume(): void {}
-    stop(): void {}
+    public stop(): void {
+        if (!this._audioProcess) {
+            this.emit('error', new Error('No audio source to stop'));
+        } else {
+            console.log('player stopping');
+            this._audioProcess.kill();
+            this._audioProcess = null;
+            this.emit('stop');
+        }
+     }
+
+    public pause(): void {
+        if (!this._audioProcess) {
+            this.emit('error', new Error('No audio source to pause'));
+        } else {
+            if (!this._isPaused) {
+                console.log('player pausing');
+                this._isPaused = true;
+                this._audioProcess.stdin.write('pause\n');
+                this.emit('pause');
+            }
+        }
+    }
+    resume(): void {
+        if (!this._audioProcess) {
+            this.emit('error', new Error('No audio source to resume'));
+        } else {
+            if (this._isPaused) {
+                console.log('player resuming');
+                this._isPaused = false;
+                this._audioProcess.stdin.write('pause\n');
+                this.emit('resume');
+            }
+        }
+    }
 
     private handlePlay(path: string, options: any): void {
-        const args: string[] = ['-slave', path]
-        this._audioProcess = spawn(this._player, args, options)
+        const args: string[] = ['-slave', path];
+        this._audioProcess = spawn(this._player, args, options);
 
         const rexStart = new RegExp(AudioPlayer.KEYWORD_STARTING);
         const rexEnd = new RegExp(AudioPlayer.KEYWORD_EXITING);
@@ -40,7 +75,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
         this._audioProcess.stdout.on('data', (chunk: any) => {
             const output: string = chunk.toString();
             if (output.substr(0, 2) === AudioPlayer.KEYWORD_PROGRESS) {
-                console.log('player progress', output);
+                // console.log('player progress', output);
                 this.emit('progress', output);
             } else {
                 if (output.match(rexStart)) {
@@ -55,11 +90,15 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
 
         this._audioProcess.on('exit', (code: number | null, signal: string | null) => {
             console.log('child process exited with ' + 'code ${code} and signal ${signal}');
+            this._isPlaying = false;
+            this._isPaused = false;
             this.emit('exit');
         });
 
         this._audioProcess.on('close', (code: number, signal: string) => {
             console.log('child process closed with ' + 'code ${code} and signal ${signal}');
+            this._isPlaying = false;
+            this._isPaused = false;
             this.emit('close');
         });
 
