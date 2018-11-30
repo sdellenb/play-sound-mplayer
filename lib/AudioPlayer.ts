@@ -12,6 +12,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
 
     private _isPlaying = false;
     private _isPaused = false;
+    private _isMuted = false;
 
     constructor() {
         super();
@@ -52,7 +53,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
             }
         }
     }
-    resume(): void {
+    public resume(): void {
         if (!this._audioProcess) {
             this.emit('error', new Error('No audio source to resume'));
         } else {
@@ -61,6 +62,31 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
                 this._isPaused = false;
                 this._audioProcess.stdin.write('pause\n');
                 this.emit('resume');
+            }
+        }
+    }
+
+    public mute(): void {
+        if (!this._audioProcess) {
+            this.emit('error', new Error('No audio source to mute'));
+        } else {
+            if (!this._isMuted) {
+                console.log('player muting');
+                this._isMuted = true;
+                this._audioProcess.stdin.write('mute\n');
+                this.emit('mute');
+            }
+        }
+    }
+    public unmute(): void {
+        if (!this._audioProcess) {
+            this.emit('error', new Error('No audio source to unmute'));
+        } else {
+            if (this._isMuted) {
+                console.log('player unmuting');
+                this._isMuted = true;
+                this._audioProcess.stdin.write('mute\n');
+                this.emit('unmute');
             }
         }
     }
@@ -75,7 +101,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
         this._audioProcess.stdout.on('data', (chunk: any) => {
             const output: string = chunk.toString();
             if (output.substr(0, 2) === AudioPlayer.KEYWORD_PROGRESS) {
-                // console.log('player progress', output);
+                console.log('player progress', output);
                 this.emit('progress', output);
             } else {
                 if (output.match(rexStart)) {

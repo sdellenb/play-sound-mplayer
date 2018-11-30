@@ -21,22 +21,86 @@ var AudioPlayer = (function (_super) {
         var _this = _super.call(this) || this;
         _this._player = 'mplayer';
         _this._audioProcess = null;
-        _this.isPaused = false;
+        _this._isPlaying = false;
+        _this._isPaused = false;
+        _this._isMuted = false;
         return _this;
     }
-    ;
     AudioPlayer.prototype.play = function (path, options) {
         options = typeof options === 'object' ? options : {};
         options.stdio = ['pipe', 'pipe', 'pipe'];
-        options.shell = true;
+        options.shell = false;
         if (!path) {
             this.emit('error', new Error('No audio source specified'));
         }
-        this.handlePlay(path, options);
+        else {
+            this._isPlaying = true;
+            this.handlePlay(path, options);
+        }
     };
-    AudioPlayer.prototype.pause = function () { };
-    AudioPlayer.prototype.resume = function () { };
-    AudioPlayer.prototype.stop = function () { };
+    AudioPlayer.prototype.stop = function () {
+        if (!this._audioProcess) {
+            this.emit('error', new Error('No audio source to stop'));
+        }
+        else {
+            console.log('player stopping');
+            this._audioProcess.kill();
+            this._audioProcess = null;
+            this.emit('stop');
+        }
+    };
+    AudioPlayer.prototype.pause = function () {
+        if (!this._audioProcess) {
+            this.emit('error', new Error('No audio source to pause'));
+        }
+        else {
+            if (!this._isPaused) {
+                console.log('player pausing');
+                this._isPaused = true;
+                this._audioProcess.stdin.write('pause\n');
+                this.emit('pause');
+            }
+        }
+    };
+    AudioPlayer.prototype.resume = function () {
+        if (!this._audioProcess) {
+            this.emit('error', new Error('No audio source to resume'));
+        }
+        else {
+            if (this._isPaused) {
+                console.log('player resuming');
+                this._isPaused = false;
+                this._audioProcess.stdin.write('pause\n');
+                this.emit('resume');
+            }
+        }
+    };
+    AudioPlayer.prototype.mute = function () {
+        if (!this._audioProcess) {
+            this.emit('error', new Error('No audio source to mute'));
+        }
+        else {
+            if (!this._isMuted) {
+                console.log('player muting');
+                this._isMuted = true;
+                this._audioProcess.stdin.write('mute\n');
+                this.emit('mute');
+            }
+        }
+    };
+    AudioPlayer.prototype.unmute = function () {
+        if (!this._audioProcess) {
+            this.emit('error', new Error('No audio source to unmute'));
+        }
+        else {
+            if (this._isMuted) {
+                console.log('player unmuting');
+                this._isMuted = true;
+                this._audioProcess.stdin.write('mute\n');
+                this.emit('unmute');
+            }
+        }
+    };
     AudioPlayer.prototype.handlePlay = function (path, options) {
         var _this = this;
         var args = ['-slave', path];
@@ -62,10 +126,14 @@ var AudioPlayer = (function (_super) {
         });
         this._audioProcess.on('exit', function (code, signal) {
             console.log('child process exited with ' + 'code ${code} and signal ${signal}');
+            _this._isPlaying = false;
+            _this._isPaused = false;
             _this.emit('exit');
         });
         this._audioProcess.on('close', function (code, signal) {
             console.log('child process closed with ' + 'code ${code} and signal ${signal}');
+            _this._isPlaying = false;
+            _this._isPaused = false;
             _this.emit('close');
         });
         this._audioProcess.on('message', function (msg) {
@@ -73,7 +141,7 @@ var AudioPlayer = (function (_super) {
             _this.emit('message', msg);
         });
         this._audioProcess.on('error', function (err) {
-            console.log('child process error'), err;
+            console.log('child process error', err);
             _this.emit('error', err);
         });
     };

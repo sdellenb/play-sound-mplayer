@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { IAudioPlayer } from "./IAudioPlayer";
+import { IAudioPlayer } from './IAudioPlayer';
 import { EventEmitter } from 'events';
 export declare class AudioPlayer extends EventEmitter implements IAudioPlayer {
     private static readonly KEYWORD_PROGRESS;
@@ -7,11 +7,15 @@ export declare class AudioPlayer extends EventEmitter implements IAudioPlayer {
     private static readonly KEYWORD_EXITING;
     private _player;
     private _audioProcess;
-    private isPaused;
+    private _isPlaying;
+    private _isPaused;
+    private _isMuted;
     constructor();
     play(path: string, options: any): void;
+    stop(): void;
     pause(): void;
     resume(): void;
-    stop(): void;
+    mute(): void;
+    unmute(): void;
     private handlePlay;
 }

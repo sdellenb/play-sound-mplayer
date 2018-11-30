@@ -12,7 +12,7 @@ describe('audioplayer tests', () => {
     xit('test', () => { });
 
     //http://www.kozco.com/tech/organfinale.mp3
-    it('play', () => {
+    xit('play', () => {
         // const process = player.play('e:/asound.wav', {});
         const process = player.play('http://www.kozco.com/tech/organfinale.mp3', {});
         setTimeout(() => {
@@ -20,6 +20,16 @@ describe('audioplayer tests', () => {
         }, 2000);
         setTimeout(() => {
             player.resume();
+        }, 5000);
+    });
+    it('mute/unmute', () => {
+        // const process = player.play('e:/asound.wav', {});
+        const process = player.play('http://www.kozco.com/tech/organfinale.mp3', {});
+        setTimeout(() => {
+            player.mute();
+        }, 2000);
+        setTimeout(() => {
+            player.unmute();
         }, 5000);
     });
 });

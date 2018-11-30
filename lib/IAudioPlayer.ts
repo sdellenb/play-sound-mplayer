@@ -3,4 +3,6 @@ export interface IAudioPlayer {
     pause(): void;
     resume(): void;
     stop(): void;
+    mute(): void;
+    unmute(): void;
 }
