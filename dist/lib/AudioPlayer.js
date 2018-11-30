@@ -38,30 +38,48 @@ var AudioPlayer = (function (_super) {
     AudioPlayer.prototype.resume = function () { };
     AudioPlayer.prototype.stop = function () { };
     AudioPlayer.prototype.handlePlay = function (path, options) {
+        var _this = this;
         var args = ['-slave', path];
         this._audioProcess = child_process_1.spawn(this._player, args, options);
+        var rexStart = new RegExp(AudioPlayer.KEYWORD_STARTING);
+        var rexEnd = new RegExp(AudioPlayer.KEYWORD_EXITING);
         this._audioProcess.stdout.on('data', function (chunk) {
-            var state = chunk.toString();
-            var regex = new RegExp("A:");
-            if (!state.match(regex)) {
+            var output = chunk.toString();
+            if (output.substr(0, 2) === AudioPlayer.KEYWORD_PROGRESS) {
+                console.log('player progress', output);
+                _this.emit('progress', output);
             }
-            console.log('data::', state);
+            else {
+                if (output.match(rexStart)) {
+                    console.log('player starting');
+                    _this.emit('start');
+                }
+                else if (output.match(rexEnd)) {
+                    console.log('player ending');
+                    _this.emit('end');
+                }
+            }
         });
         this._audioProcess.on('exit', function (code, signal) {
-            console.log('child process exited with ' +
-                ("code " + code + " and signal " + signal));
+            console.log('child process exited with ' + 'code ${code} and signal ${signal}');
+            _this.emit('exit');
         });
         this._audioProcess.on('close', function (code, signal) {
-            console.log('child process closed with ' +
-                ("code " + code + " and signal " + signal));
+            console.log('child process closed with ' + 'code ${code} and signal ${signal}');
+            _this.emit('close');
         });
         this._audioProcess.on('message', function (msg) {
             console.log('child process message event ', msg);
+            _this.emit('message', msg);
         });
         this._audioProcess.on('error', function (err) {
-            console.log('child process error event ', err);
+            console.log('child process error'), err;
+            _this.emit('error', err);
         });
     };
+    AudioPlayer.KEYWORD_PROGRESS = 'A:';
+    AudioPlayer.KEYWORD_STARTING = 'Starting playback...';
+    AudioPlayer.KEYWORD_EXITING = 'Exiting...';
     return AudioPlayer;
 }(events_1.EventEmitter));
 exports.AudioPlayer = AudioPlayer;

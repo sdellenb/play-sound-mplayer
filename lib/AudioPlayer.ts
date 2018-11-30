@@ -1,9 +1,12 @@
-import { IAudioPlayer } from "./IAudioPlayer";
+import { IAudioPlayer } from './IAudioPlayer';
 import { spawn, ChildProcess } from 'child_process';
 import { EventEmitter } from 'events';
-// const findExec = require('find-exec');
 
 export class AudioPlayer extends EventEmitter implements IAudioPlayer {
+    private static readonly KEYWORD_PROGRESS = 'A:';
+    private static readonly KEYWORD_STARTING = 'Starting playback...';
+    private static readonly KEYWORD_EXITING = 'Exiting...';
+
     private _player = 'mplayer';
     private _audioProcess: ChildProcess | null = null;;
 
@@ -14,7 +17,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
     }
 
     public play(path: string, options: any): void {
-        options = typeof options === 'object' ? options: {};
+        options = typeof options === 'object' ? options : {};
         options.stdio = ['pipe', 'pipe', 'pipe'];
         options.shell = true;
         if (!path) {
@@ -26,32 +29,48 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
     pause(): void {}
     resume(): void {}
     stop(): void {}
-    
+
     private handlePlay(path: string, options: any): void {
         const args: string[] = ['-slave', path]
         this._audioProcess = spawn(this._player, args, options)
+
+        const rexStart = new RegExp(AudioPlayer.KEYWORD_STARTING);
+        const rexEnd = new RegExp(AudioPlayer.KEYWORD_EXITING);
+
         this._audioProcess.stdout.on('data', (chunk: any) => {
-            const state = chunk.toString();
-            const regex = new RegExp("A:");
-            //if (state.substring(0,2) !== 'A:') {
-            if (!state.match(regex)) {
-                // console.log('data event:', state);
+            const output: string = chunk.toString();
+            if (output.substr(0, 2) === AudioPlayer.KEYWORD_PROGRESS) {
+                console.log('player progress', output);
+                this.emit('progress', output);
+            } else {
+                if (output.match(rexStart)) {
+                    console.log('player starting');
+                    this.emit('start');
+                } else if (output.match(rexEnd)) {
+                    console.log('player ending');
+                    this.emit('end');
+                }
             }
-            console.log('data::', state);
         });
-        this._audioProcess.on('exit', function (code: number | null, signal: string | null) {
-            console.log('child process exited with ' +
-                `code ${code} and signal ${signal}`);
+
+        this._audioProcess.on('exit', (code: number | null, signal: string | null) => {
+            console.log('child process exited with ' + 'code ${code} and signal ${signal}');
+            this.emit('exit');
         });
-        this._audioProcess.on('close', function (code: number, signal: string) {
-            console.log('child process closed with ' +
-                `code ${code} and signal ${signal}`);
+
+        this._audioProcess.on('close', (code: number, signal: string) => {
+            console.log('child process closed with ' + 'code ${code} and signal ${signal}');
+            this.emit('close');
         });
-        this._audioProcess.on('message', function (msg: any) {
+
+        this._audioProcess.on('message', (msg: any)  => {
             console.log('child process message event ', msg);
+            this.emit('message', msg);
         });
-        this._audioProcess.on('error', function (err: Error) {
-            console.log('child process error event ', err);
+
+        this._audioProcess.on('error', (err: Error) => {
+            console.log('child process error', err);
+            this.emit('error', err);
         });
     }
 }
