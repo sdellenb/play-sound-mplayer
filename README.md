@@ -1,6 +1,8 @@
 # play-sound-mplayer
 Play sounds by shelling out with MPlayer audio player. Make it easy to play audio in Node.js.
 
+## This is still a work in progress and not yet a final concept.
+
 ## Installation
 ```
 npm install play-sound-mplayer
@@ -53,7 +55,6 @@ player.on('pause', () => {
 player.pause();
 ```
 
-
 ### Resume
 Resume the playback from a paused state by using the `resume` function:
 
@@ -63,4 +64,37 @@ player.on('resume', () => {
 });
 
 player.resume();
+```
+
+### Mute
+Mute the playback (with the ability to unmute later) by using the `mute` function:
+
+```javascript
+player.on('muted', () => {
+  // Do something here when the audio is muted.
+});
+
+player.mute();
+```
+
+### Unmute
+Unmute the playback from a muted state by using the `unMute` function:
+
+```javascript
+player.on('unmuted', () => {
+  // Do something here when the audio is unmuted
+});
+
+player.unMute();
+```
+
+### Set Playback Volume
+Set the volume of the playback by using the `setVolume(0..100)` function:
+
+```javascript
+player.on('volumeupdate', (volume: number) => {
+  // Do something here when the audio volume updated with volume: number 0..100
+});
+
+player.setVolume(30);
 ```
