@@ -36,11 +36,9 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
     public get isPlaying(): boolean {
         return this._isPlaying;
     }
-
     public get isPaused(): boolean {
         return this._isPaused;
     }
-
     public get isMuted(): boolean {
         return this._isMuted;
     }
@@ -69,7 +67,6 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
             this.emit('stop');
         }
      }
-
     public pause(): void {
         if (!this._audioProcess) {
             this.emit('error', new Error('No audio source to pause'));
