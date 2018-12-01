@@ -1,8 +1,9 @@
 export interface IAudioPlayer {
-    play(path: string, options?: any, next?: any): void;
+    play(path: string, options?: any): void;
     pause(): void;
     resume(): void;
     stop(): void;
     mute(): void;
-    unmute(): void;
+    unMute(): void;
+    setVolume(value: number): void;
 }

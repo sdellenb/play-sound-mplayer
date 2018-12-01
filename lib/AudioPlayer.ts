@@ -1,6 +1,20 @@
-import { IAudioPlayer } from './IAudioPlayer';
 import { spawn, ChildProcess } from 'child_process';
 import { EventEmitter } from 'events';
+
+export interface IAudioPlayer {
+    readonly isPlaying: boolean;
+    readonly isPaused: boolean;
+    readonly isMuted: boolean;
+    readonly currentVolume: number;
+
+    play(path: string, options?: any): void;
+    pause(): void;
+    resume(): void;
+    stop(): void;
+    mute(): void;
+    unMute(): void;
+    setVolume(value: number): void;
+}
 
 export class AudioPlayer extends EventEmitter implements IAudioPlayer {
     private static readonly KEYWORD_PROGRESS = 'A:';
@@ -19,7 +33,22 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
         super();
     }
 
-    public play(path: string, options: any): void {
+    public get isPlaying(): boolean {
+        return this._isPlaying;
+    }
+
+    public get isPaused(): boolean {
+        return this._isPaused;
+    }
+
+    public get isMuted(): boolean {
+        return this._isMuted;
+    }
+    public get currentVolume(): number {
+        return this._currentVolume;
+    }
+
+    public play(path: string, options?: any): void {
         options = typeof options === 'object' ? options : {};
         options.stdio = ['pipe', 'pipe', 'pipe'];
         options.shell = false;  // required for stopping
@@ -30,7 +59,6 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
             this.handlePlay(path, options);
         }
     }
-
     public stop(): void {
         if (!this._audioProcess) {
             this.emit('error', new Error('No audio source to stop'));
@@ -94,7 +122,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
 
     public setVolume(volRel: number): void {
         if (!volRel) {
-            this.emit('error', new Error('invalid volume argument, should between 0 and 100'));
+            this.emit('error', new Error('Invalid volume argument, should between 0 and 100'));
         }
         if (volRel < 0) {
             volRel = 0;

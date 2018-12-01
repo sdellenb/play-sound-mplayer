@@ -24,8 +24,37 @@ var AudioPlayer = (function (_super) {
         _this._isPlaying = false;
         _this._isPaused = false;
         _this._isMuted = false;
+        _this._currentVolume = 100;
         return _this;
     }
+    Object.defineProperty(AudioPlayer.prototype, "isPlaying", {
+        get: function () {
+            return this._isPlaying;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AudioPlayer.prototype, "isPaused", {
+        get: function () {
+            return this._isPaused;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AudioPlayer.prototype, "isMuted", {
+        get: function () {
+            return this._isMuted;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AudioPlayer.prototype, "currentVolume", {
+        get: function () {
+            return this._currentVolume;
+        },
+        enumerable: true,
+        configurable: true
+    });
     AudioPlayer.prototype.play = function (path, options) {
         options = typeof options === 'object' ? options : {};
         options.stdio = ['pipe', 'pipe', 'pipe'];
@@ -88,7 +117,7 @@ var AudioPlayer = (function (_super) {
             }
         }
     };
-    AudioPlayer.prototype.unmute = function () {
+    AudioPlayer.prototype.unMute = function () {
         if (!this._audioProcess) {
             this.emit('error', new Error('No audio source to unmute'));
         }
@@ -100,6 +129,27 @@ var AudioPlayer = (function (_super) {
                 this.emit('unmute');
             }
         }
+    };
+    AudioPlayer.prototype.setVolume = function (volRel) {
+        if (!volRel) {
+            this.emit('error', new Error('Invalid volume argument, should between 0 and 100'));
+        }
+        if (volRel < 0) {
+            volRel = 0;
+        }
+        if (volRel > 100) {
+            volRel = 100;
+        }
+        this._currentVolume = volRel;
+        if (this._audioProcess) {
+            this._audioProcess.stdin.write('set_property volume ' + this._currentVolume + '\n');
+        }
+    };
+    AudioPlayer.prototype.reset = function () {
+        this._currentVolume = 100;
+        this._isPlaying = false;
+        this._isMuted = false;
+        this._isPaused = false;
     };
     AudioPlayer.prototype.handlePlay = function (path, options) {
         var _this = this;
@@ -126,14 +176,12 @@ var AudioPlayer = (function (_super) {
         });
         this._audioProcess.on('exit', function (code, signal) {
             console.log('child process exited with ' + 'code ${code} and signal ${signal}');
-            _this._isPlaying = false;
-            _this._isPaused = false;
+            _this.reset();
             _this.emit('exit');
         });
         this._audioProcess.on('close', function (code, signal) {
             console.log('child process closed with ' + 'code ${code} and signal ${signal}');
-            _this._isPlaying = false;
-            _this._isPaused = false;
+            _this.reset();
             _this.emit('close');
         });
         this._audioProcess.on('message', function (msg) {
