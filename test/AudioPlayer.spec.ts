@@ -106,7 +106,7 @@ describe('AudioPlayer Test Suite', () => {
         });
     });
 
-    describe('Player Events Tests', () => {
+    xdescribe('Player Events Tests', () => {
         before(function () {
             // runs before each test in this block
             subject = new AudioPlayer();

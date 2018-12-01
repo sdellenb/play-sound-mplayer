@@ -64,8 +64,70 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
+				<p><a href="https://travis-ci.org/rgsmolin/play-sound-mplayer"><img src="https://travis-ci.org/rgsmolin/play-sound-mplayer.svg?branch=master" alt="Build Status"></a></p>
 				<h1 id="play-sound-mplayer">play-sound-mplayer</h1>
-				<p>Play sounds by shelling out with MPlayer audio player</p>
+				<p>Play sounds by shelling out with MPlayer audio player. Make it easy to play audio in Node.js.</p>
+				<h2 id="this-is-still-a-work-in-progress-and-not-yet-a-final-concept">This is still a work in progress and not yet a final concept</h2>
+				<h2 id="installation">Installation</h2>
+				<pre><code>npm install <span class="hljs-keyword">play</span>-<span class="hljs-keyword">sound</span>-mplayer</code></pre><p>Since we use  mplayer over the command-line to facilitate audio playback, you will also need to install a mplayer instance.</p>
+				<h2 id="usage">Usage</h2>
+				<h3 id="getting-started">Getting Started</h3>
+				<p>To get started, require the module in your program and create a new AudioPlayer instance. </p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> AudioPlayer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'play-sound-mplayer'</span>);
+<span class="hljs-keyword">const</span> player = <span class="hljs-keyword">new</span> AudioPlayer();</code></pre>
+				<h3 id="play">Play</h3>
+				<p>To play an audio source, use the <code>play</code> function and pass in the file path  or url of the audio source that is to be played:</p>
+				<pre><code class="language-javascript">player.on(<span class="hljs-string">'start'</span>, () =&gt; {
+  <span class="hljs-comment">// Do something here when the audio starts playing</span>
+});
+
+player.on(<span class="hljs-string">'end'</span>, () =&gt; {
+  <span class="hljs-comment">// Do something here when the audio finishes playing</span>
+});
+
+player.play(<span class="hljs-string">'./test/sound.mp3'</span>);</code></pre>
+				<h3 id="stop">Stop</h3>
+				<p>Stop the playback (without the ability to resume later) by using the <code>stop</code> function:</p>
+				<pre><code class="language-javascript">player.on(<span class="hljs-string">'stop'</span>, () =&gt; {
+  <span class="hljs-comment">// Do something here when the audio is stopped</span>
+});
+
+player.stop();</code></pre>
+				<h3 id="pause">Pause</h3>
+				<p>Pause the playback (with the ability to resume later) by using the <code>pause</code> function:</p>
+				<pre><code class="language-javascript">player.on(<span class="hljs-string">'pause'</span>, () =&gt; {
+  <span class="hljs-comment">// Do something here when the audio is paused</span>
+});
+
+player.pause();</code></pre>
+				<h3 id="resume">Resume</h3>
+				<p>Resume the playback from a paused state by using the <code>resume</code> function:</p>
+				<pre><code class="language-javascript">player.on(<span class="hljs-string">'resume'</span>, () =&gt; {
+  <span class="hljs-comment">// Do something here when the audio is resumed</span>
+});
+
+player.resume();</code></pre>
+				<h3 id="mute">Mute</h3>
+				<p>Mute the playback (with the ability to unmute later) by using the <code>mute</code> function:</p>
+				<pre><code class="language-javascript">player.on(<span class="hljs-string">'muted'</span>, () =&gt; {
+  <span class="hljs-comment">// Do something here when the audio is muted.</span>
+});
+
+player.mute();</code></pre>
+				<h3 id="unmute">Unmute</h3>
+				<p>Unmute the playback from a muted state by using the <code>unMute</code> function:</p>
+				<pre><code class="language-javascript">player.on(<span class="hljs-string">'unmuted'</span>, () =&gt; {
+  <span class="hljs-comment">// Do something here when the audio is unmuted</span>
+});
+
+player.unMute();</code></pre>
+				<h3 id="set-playback-volume">Set Playback Volume</h3>
+				<p>Set the volume of the playback by using the <code>setVolume(0..100)</code> function:</p>
+				<pre><code class="language-javascript">player.on(<span class="hljs-string">'volumeupdate'</span>, (volume: number) =&gt; {
+  <span class="hljs-comment">// Do something here when the audio volume updated with volume: number 0..100</span>
+});
+
+player.setVolume(<span class="hljs-number">30</span>);</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
