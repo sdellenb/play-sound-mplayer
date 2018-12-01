@@ -160,36 +160,29 @@ var AudioPlayer = (function (_super) {
         this._audioProcess.stdout.on('data', function (chunk) {
             var output = chunk.toString();
             if (output.substr(0, 2) === AudioPlayer.KEYWORD_PROGRESS) {
-                console.log('player progress', output);
                 _this.emit('progress', output);
             }
             else {
                 if (output.match(rexStart)) {
-                    console.log('player starting');
                     _this.emit('start');
                 }
                 else if (output.match(rexEnd)) {
-                    console.log('player ending');
                     _this.emit('end');
                 }
             }
         });
         this._audioProcess.on('exit', function (code, signal) {
-            console.log('child process exited with ' + 'code ${code} and signal ${signal}');
             _this.reset();
             _this.emit('exit');
         });
         this._audioProcess.on('close', function (code, signal) {
-            console.log('child process closed with ' + 'code ${code} and signal ${signal}');
             _this.reset();
             _this.emit('close');
         });
         this._audioProcess.on('message', function (msg) {
-            console.log('child process message event ', msg);
             _this.emit('message', msg);
         });
         this._audioProcess.on('error', function (err) {
-            console.log('child process error', err);
             _this.emit('error', err);
         });
     };
