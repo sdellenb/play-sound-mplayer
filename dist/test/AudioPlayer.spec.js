@@ -102,33 +102,21 @@ describe('AudioPlayer Test Suite', function () {
             chai_1.expect(subject.currentVolume).to.equal(30);
         });
     });
-    xdescribe('Player Events Tests', function () {
-        xit('play', function () {
-            subject.play('http://www.kozco.com/tech/organfinale.mp3', {});
-            setTimeout(function () {
-                subject.pause();
-            }, 2000);
-            setTimeout(function () {
-                subject.resume();
-            }, 5000);
+    describe('Player Events Tests', function () {
+        before(function () {
+            subject = new AudioPlayer_1.AudioPlayer();
+            subject.play('./test/sound.mp3', {});
+            subject.mute();
         });
-        xit('mute/unmute', function () {
-            subject.play('http://www.kozco.com/tech/organfinale.mp3', {});
-            setTimeout(function () {
-                subject.mute();
-            }, 2000);
-            setTimeout(function () {
-                subject.unMute();
-            }, 5000);
+        it('start playing should emit a start event', function (done) {
+            subject.on('start', function () {
+                done();
+            });
         });
-        xit('setVolume', function () {
-            var process = subject.play('http://www.kozco.com/tech/organfinale.mp3', {});
-            setTimeout(function () {
-                subject.setVolume(30);
-            }, 2000);
-            setTimeout(function () {
-                subject.setVolume(90);
-            }, 5000);
+        it('ending playing should emit a end event', function (done) {
+            subject.on('end', function () {
+                done();
+            });
         });
     });
 });

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { AudioPlayer, IAudioPlayer } from '../lib/AudioPlayer';
 describe('AudioPlayer Test Suite', () => {
 
-    let subject: IAudioPlayer;
+    let subject: AudioPlayer;
 
     describe('Basic Interface Tests', () => {
         beforeEach(function () {
@@ -106,42 +106,25 @@ describe('AudioPlayer Test Suite', () => {
         });
     });
 
-    xdescribe('Player Events Tests', () => { 
-        //http://www.kozco.com/tech/organfinale.mp3
-        xit('play', () => {
-            // const process = subject.play('e:/asound.wav', {});
-            subject.play('http://www.kozco.com/tech/organfinale.mp3', {});
-            setTimeout(() => {
-                subject.pause();
-            }, 2000);
-            setTimeout(() => {
-                subject.resume();
-            }, 5000);
+    describe('Player Events Tests', () => {
+        before(function () {
+            // runs before each test in this block
+            subject = new AudioPlayer();
+            subject.play('./test/sound.mp3', {});
+            subject.mute();
         });
-        xit('mute/unmute', () => {
-            // const process = subject.play('e:/asound.wav', {});
-            subject.play('http://www.kozco.com/tech/organfinale.mp3', {});
-            setTimeout(() => {
-                subject.mute();
-            }, 2000);
-            setTimeout(() => {
-                subject.unMute();
-            }, 5000);
+
+        it('start playing should emit a start event', (done) => {
+            subject.on('start', () => {
+                done();
+            });
         });
-        xit('setVolume', () => {
-            // const process = subject.play('e:/asound.wav', {});
-            const process = subject.play('http://www.kozco.com/tech/organfinale.mp3', {});
-            setTimeout(() => {
-                subject.setVolume(30);
-            }, 2000);
-            setTimeout(() => {
-                subject.setVolume(90);
-            }, 5000);
+        it('ending playing should emit a end event', (done) => {
+            subject.on('end', () => {
+                done();
+            });
         });
+
     });
-
-
-
-
 
 });
