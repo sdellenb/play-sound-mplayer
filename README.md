@@ -1,4 +1,7 @@
 [![Build Status](https://travis-ci.org/rgsmolin/play-sound-mplayer.svg?branch=master)](https://travis-ci.org/rgsmolin/play-sound-mplayer)
+[![NPM](https://img.shields.io/npm/v/play-sound-mplayer.svg)](https://www.npmjs.com/package/play-sound-mplayer)
+[![Coverage Status](https://coveralls.io/repos/github/rgsmolin/play-sound-mplayer/badge.svg?branch=develop)](https://coveralls.io/github/rgsmolin/play-sound-mplayer?branch=develop)
+
 # play-sound-mplayer
 Play sounds by shelling out with MPlayer audio player. Make it easy to play audio in Node.js.
 

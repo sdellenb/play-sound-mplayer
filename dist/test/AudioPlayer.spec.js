@@ -108,6 +108,9 @@ describe('AudioPlayer Test Suite', function () {
             subject.play('./test/sound.mp3', {});
             subject.mute();
         });
+        after(function () {
+            subject.stop();
+        });
         it('start playing should emit a start event', function (done) {
             subject.on('start', function () {
                 done();
@@ -117,6 +120,59 @@ describe('AudioPlayer Test Suite', function () {
             subject.on('end', function () {
                 done();
             });
+        });
+        xit('stop playing should emit a stop event', function (done) {
+            subject.on('stop', function () {
+                done();
+            });
+            subject.stop();
+        });
+    });
+    xdescribe('Player Single Events Tests', function () {
+        afterEach(function () {
+            subject.stop();
+        });
+        it('mute playing should emit a mute event', function (done) {
+            subject = new AudioPlayer_1.AudioPlayer();
+            subject.play('./test/sound.mp3', {});
+            subject.on('mute', function () {
+                done();
+            });
+            subject.mute();
+        });
+        it('unmute playing should emit a unmute event', function (done) {
+            subject = new AudioPlayer_1.AudioPlayer();
+            subject.play('./test/sound.mp3', {});
+            subject.on('unmute', function () {
+                done();
+            });
+            subject.mute();
+            subject.unMute();
+        });
+        it('pause playing should emit a pause event', function (done) {
+            subject = new AudioPlayer_1.AudioPlayer();
+            subject.play('./test/sound.mp3', {});
+            subject.on('pause', function () {
+                done();
+            });
+            subject.pause();
+        });
+        it('resume playing should emit a resume event', function (done) {
+            subject = new AudioPlayer_1.AudioPlayer();
+            subject.play('./test/sound.mp3', {});
+            subject.pause();
+            subject.on('resume', function () {
+                done();
+            });
+            subject.resume();
+        });
+        it('setVolume should emit a volumeupdate event', function (done) {
+            subject = new AudioPlayer_1.AudioPlayer();
+            subject.play('./test/sound.mp3', {});
+            subject.on('volumeupdate', function () {
+                done();
+            });
+            subject.setVolume(40);
         });
     });
 });

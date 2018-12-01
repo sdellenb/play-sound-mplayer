@@ -73,9 +73,9 @@ var AudioPlayer = (function (_super) {
         }
         else {
             console.log('player stopping');
+            this.emit('stop');
             this._audioProcess.kill();
             this._audioProcess = null;
-            this.emit('stop');
         }
     };
     AudioPlayer.prototype.pause = function () {
@@ -85,9 +85,9 @@ var AudioPlayer = (function (_super) {
         else {
             if (!this._isPaused) {
                 console.log('player pausing');
+                this.emit('pause');
                 this._isPaused = true;
                 this._audioProcess.stdin.write('pause\n');
-                this.emit('pause');
             }
         }
     };
@@ -111,9 +111,9 @@ var AudioPlayer = (function (_super) {
         else {
             if (!this._isMuted) {
                 console.log('player muting');
+                this.emit('mute');
                 this._isMuted = true;
                 this._audioProcess.stdin.write('mute\n');
-                this.emit('mute');
             }
         }
     };
@@ -124,9 +124,9 @@ var AudioPlayer = (function (_super) {
         else {
             if (this._isMuted) {
                 console.log('player unmuting');
+                this.emit('unmute');
                 this._isMuted = true;
                 this._audioProcess.stdin.write('mute\n');
-                this.emit('unmute');
             }
         }
     };
@@ -142,6 +142,7 @@ var AudioPlayer = (function (_super) {
         }
         this._currentVolume = volRel;
         if (this._audioProcess) {
+            this.emit('volumeupdate');
             this._audioProcess.stdin.write('set_property volume ' + this._currentVolume + '\n');
         }
     };

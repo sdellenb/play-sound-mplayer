@@ -1,13 +1,13 @@
 {
   "name": "play-sound-mplayer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Play sounds by shelling out with MPlayer audio player",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": " mocha -r ts-node/register test/**/*.spec.ts",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha test/*.js - - -R spec",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha dist/test/*.js - - -R spec",
     "doc": "typedoc --out ./doc/ ./index.ts"
   },
   "repository": {
