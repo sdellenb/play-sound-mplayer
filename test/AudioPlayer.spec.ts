@@ -1,9 +1,9 @@
 import 'mocha';
 import { expect } from 'chai';
-import { AudioPlayer, IAudioPlayer } from '../lib/AudioPlayer';
+const AudioPlayer = require('../lib/AudioPlayer');
 describe('AudioPlayer Test Suite', () => {
 
-    let subject: AudioPlayer;
+    let subject: any;
 
     describe('Basic Interface Tests', () => {
         beforeEach(function () {

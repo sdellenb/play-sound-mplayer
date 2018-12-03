@@ -16,7 +16,7 @@ export interface IAudioPlayer {
     setVolume(value: number): void;
 }
 
-export class AudioPlayer extends EventEmitter implements IAudioPlayer {
+class AudioPlayer extends EventEmitter implements IAudioPlayer {
     private static readonly KEYWORD_PROGRESS = 'A:';
     private static readonly KEYWORD_STARTING = 'Starting playback...';
     private static readonly KEYWORD_EXITING = 'Exiting...';
@@ -188,3 +188,6 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
 
     }
 }
+
+// Export the module
+module.exports = AudioPlayer;
