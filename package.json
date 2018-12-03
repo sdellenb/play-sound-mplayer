@@ -8,7 +8,7 @@
     "build": "tsc",
     "test": " mocha -r ts-node/register test/**/*.spec.ts",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha dist/test/*.js - - -R spec",
-    "doc": "typedoc --out ./doc/ ./lib/index.ts"
+    "doc": "typedoc --out ./doc/ ./index.ts"
   },
   "repository": {
     "type": "git",
