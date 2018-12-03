@@ -1,6 +1,9 @@
 import 'mocha';
 import { expect } from 'chai';
-const AudioPlayer = require('../lib/AudioPlayer');
+const  { AudioPlayer } = require('../dist/index');
+
+console.log(AudioPlayer);
+
 describe('AudioPlayer Test Suite', () => {
 
     let subject: any;

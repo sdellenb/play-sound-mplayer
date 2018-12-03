@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("mocha");
 var chai_1 = require("chai");
-var AudioPlayer = require('../lib/AudioPlayer');
+var AudioPlayer = require('../dist/index').AudioPlayer;
+console.log(AudioPlayer);
 describe('AudioPlayer Test Suite', function () {
     var subject;
     describe('Basic Interface Tests', function () {
