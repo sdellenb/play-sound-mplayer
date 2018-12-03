@@ -2,12 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("mocha");
 var chai_1 = require("chai");
-var AudioPlayer_1 = require("../lib/AudioPlayer");
+var AudioPlayer = require('../lib/AudioPlayer');
 describe('AudioPlayer Test Suite', function () {
     var subject;
     describe('Basic Interface Tests', function () {
         beforeEach(function () {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new AudioPlayer();
         });
         it('isPlaying should be false before play an audio source', function () {
             chai_1.expect(subject.isPlaying).to.equal(false);
@@ -104,7 +104,7 @@ describe('AudioPlayer Test Suite', function () {
     });
     xdescribe('Player Events Tests', function () {
         before(function () {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.mute();
         });
@@ -133,7 +133,7 @@ describe('AudioPlayer Test Suite', function () {
             subject.stop();
         });
         it('mute playing should emit a mute event', function (done) {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.on('mute', function () {
                 done();
@@ -141,7 +141,7 @@ describe('AudioPlayer Test Suite', function () {
             subject.mute();
         });
         it('unmute playing should emit a unmute event', function (done) {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.on('unmute', function () {
                 done();
@@ -150,7 +150,7 @@ describe('AudioPlayer Test Suite', function () {
             subject.unMute();
         });
         it('pause playing should emit a pause event', function (done) {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.on('pause', function () {
                 done();
@@ -158,7 +158,7 @@ describe('AudioPlayer Test Suite', function () {
             subject.pause();
         });
         it('resume playing should emit a resume event', function (done) {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.pause();
             subject.on('resume', function () {
@@ -167,7 +167,7 @@ describe('AudioPlayer Test Suite', function () {
             subject.resume();
         });
         it('setVolume should emit a volumeupdate event', function (done) {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.on('volumeupdate', function () {
                 done();
