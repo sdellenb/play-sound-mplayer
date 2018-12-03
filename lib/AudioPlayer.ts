@@ -1,7 +1,7 @@
 import { spawn, ChildProcess } from 'child_process';
 import { EventEmitter } from 'events';
 
-export interface IAudioPlayer {
+interface IAudioPlayer {
     readonly isPlaying: boolean;
     readonly isPaused: boolean;
     readonly isMuted: boolean;
