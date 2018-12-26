@@ -1,6 +1,6 @@
 {
   "name": "play-sound-mplayer",
-  "version": "0.1.2",
+  "version": "0.1.2-patch.1",
   "description": "Play sounds by shelling out with MPlayer audio player",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,6 +15,9 @@
     "url": "git+https://github.com/rgsmolin/play-sound-mplayer.git"
   },
   "author": "dr. roland smolin",
+  "contributors": [
+    "Simon Dellenbach <sdellenb@gmail.com"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/rgsmolin/play-sound-mplayer/issues"
@@ -31,5 +34,7 @@
     "ts-node": "^8.0.3",
     "typescript": "^3.2.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "tree-kill": "^1.2.1"
+  }
 }

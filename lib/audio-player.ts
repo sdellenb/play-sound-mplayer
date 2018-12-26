@@ -1,4 +1,5 @@
 import { spawn, ChildProcess } from 'child_process';
+import treeKill from 'tree-kill';
 import { EventEmitter } from 'events';
 
 interface IAudioPlayer {
@@ -66,7 +67,8 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
         } else {
             // console.log('player stopping');
             this.emit('stop');
-            this._audioProcess.kill();
+            // Kill the audioProcess including all child processes that might have been spawned.
+            treeKill(this._audioProcess.pid);
             this._audioProcess = null;
         }
      }

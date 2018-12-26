@@ -12,8 +12,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var child_process_1 = require("child_process");
+var tree_kill_1 = __importDefault(require("tree-kill"));
 var events_1 = require("events");
 var AudioPlayer = (function (_super) {
     __extends(AudioPlayer, _super);
@@ -76,7 +80,7 @@ var AudioPlayer = (function (_super) {
         }
         else {
             this.emit('stop');
-            this._audioProcess.kill();
+            tree_kill_1.default(this._audioProcess.pid);
             this._audioProcess = null;
         }
     };
