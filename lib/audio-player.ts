@@ -114,7 +114,6 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
                 this.emit('unmute');
                 this._isMuted = true;
                 this._audioProcess.stdin.write('mute\n');
-
             }
         }
     }
@@ -134,6 +133,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
             this._audioProcess.stdin.write('set_property volume ' + this._currentVolume + '\n');
         }
     }
+
     private reset(): void {
         this._currentVolume = 100;
         this._isPlaying = false;
@@ -185,7 +185,6 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
             // console.log('child process error', err);
             this.emit('error', err);
         });
-
     }
 }
 

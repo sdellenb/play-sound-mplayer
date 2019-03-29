@@ -1,1 +1,1 @@
-export { AudioPlayer } from './lib/AudioPlayer';
+export { AudioPlayer } from './lib/audio-player';

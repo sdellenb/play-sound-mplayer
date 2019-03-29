@@ -15,76 +15,43 @@ describe('AudioPlayer Test Suite', () => {
         it('isPlaying should be false before play an audio source', () => {
             expect(subject.isPlaying).to.equal(false);
         });
+
         it('isPaused should be false before play an audio source', () => {
             expect(subject.isPaused).to.equal(false);
         });
+
         it('isMuted should be false before play an audio source', () => {
             expect(subject.isMuted).to.equal(false);
         });
 
         it('play emits an error when it is not passed an audio source', () => {
-            try {
-                subject.play('');
-            } catch (error) {
-                // tslint:disable-next-line:no-unused-expression
-                expect(error).to.exist;
-                expect(error.message).to.equal('No audio source specified');
-            }
+            expect(() => { subject.play(''); }).to.throw(/No audio source specified/);
         });
+
         it('stop emits an error when no audio source is playing', () => {
-            try {
-                subject.stop();
-            } catch (error) {
-                // tslint:disable-next-line:no-unused-expression
-                expect(error).to.exist;
-                expect(error.message).to.equal('No audio source to stop');
-            }
+            expect(() => { subject.stop(); }).to.throw(/No audio source to stop/);
         });
+
         it('pause emits an error when no audio source is playing', () => {
-            try {
-                subject.pause();
-            } catch (error) {
-                // tslint:disable-next-line:no-unused-expression
-                expect(error).to.exist;
-                expect(error.message).to.equal('No audio source to pause');
-            }
+            expect(() => { subject.pause(); }).to.throw(/No audio source to pause/);
         });
+
         it('resume emits an error when no audio source is playing', () => {
-            try {
-                subject.resume();
-            } catch (error) {
-                // tslint:disable-next-line:no-unused-expression
-                expect(error).to.exist;
-                expect(error.message).to.equal('No audio source to resume');
-            }
+            expect(() => { subject.resume(); }).to.throw(/No audio source to resume/);
         });
+
         it('mute emits an error when no audio source is playing', () => {
-            try {
-                subject.mute();
-            } catch (error) {
-                // tslint:disable-next-line:no-unused-expression
-                expect(error).to.exist;
-                expect(error.message).to.equal('No audio source to mute');
-            }
+            expect(() => { subject.mute(); }).to.throw(/No audio source to mute/);
         });
+
         it('unMute emits an error when no audio source is playing', () => {
-            try {
-                subject.unMute();
-            } catch (error) {
-                // tslint:disable-next-line:no-unused-expression
-                expect(error).to.exist;
-                expect(error.message).to.equal('No audio source to unmute');
-            }
+            expect(() => { subject.unMute(); }).to.throw(/No audio source to unmute/);
         });
+
         it('setVolume emits an error hhen it is not passed an audio source', () => {
-            try {
-                subject.setVolume(NaN);
-            } catch (error) {
-                // tslint:disable-next-line:no-unused-expression
-                expect(error).to.exist;
-                expect(error.message).to.equal('Invalid volume argument, should between 0 and 100');
-            }
+            expect(() => { subject.setVolume(NaN); }).to.throw(/Invalid volume argument, should between 0 and 100/);
         });
+
         it('setVolume < 0 results a currentVolume of 0', () => {
             expect(subject.currentVolume).to.equal(100);
             subject.setVolume(-1);
@@ -107,28 +74,36 @@ describe('AudioPlayer Test Suite', () => {
         });
     });
 
-   xdescribe('Player Events Tests', () => {
-        before(function () {
+   describe('Player Events Tests', () => {
+        beforeEach(function () {
             // runs before each test in this block
             subject = new AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.mute();
         });
-        after(function () {
+
+        afterEach(function () {
             // runs before each test in this block
             subject.stop();
         });
+
         it('start playing should emit a start event', (done) => {
             subject.on('start', () => {
                 done();
             });
         });
+
         it('ending playing should emit a end event', (done) => {
             subject.on('end', () => {
                 done();
             });
         });
-        xit('stop playing should emit a stop event', (done) => {
+    });
+    describe('Player Epecific Events Tests', () => {
+        it('stop playing should emit a stop event', (done) => {
+            subject = new AudioPlayer();
+            subject.play('./test/sound.mp3', {});
+            subject.mute();
             subject.on('stop', () => {
                 done();
             });
@@ -136,7 +111,8 @@ describe('AudioPlayer Test Suite', () => {
         });
 
     });
-    xdescribe('Player Single Events Tests', () => {
+
+    describe('Player Single Events Tests', () => {
         afterEach(function () {
             // runs before each test in this block
             subject.stop();

@@ -193,4 +193,4 @@ var AudioPlayer = (function (_super) {
     return AudioPlayer;
 }(events_1.EventEmitter));
 exports.AudioPlayer = AudioPlayer;
-//# sourceMappingURL=AudioPlayer.js.map
+//# sourceMappingURL=audio-player.js.map
