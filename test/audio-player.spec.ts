@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import { AudioPlayer} from '../lib/AudioPlayer';
+import { AudioPlayer} from '../lib/audio-player';
 
 describe('AudioPlayer Test Suite', () => {
 
