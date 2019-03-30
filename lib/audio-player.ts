@@ -29,6 +29,8 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
     private _isMuted = false;
     private _currentVolume = 100;
 
+    private _isDebug = false;
+
     constructor() {
         super();
     }
@@ -46,8 +48,9 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
         return this._currentVolume;
     }
 
-    public play(path: string, options?: any): void {
+    public play(path: string, options?: any, debug: boolean = false): void {
         options = typeof options === 'object' ? options : {};
+        this._isDebug = debug;
         options.stdio = ['pipe', 'pipe', 'pipe'];
         options.shell = false;  // required for stopping
         if (!path) {
@@ -61,7 +64,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
         if (!this._audioProcess) {
             this.emit('error', new Error('No audio source to stop'));
         } else {
-            console.log('player stopping');
+            // console.log('player stopping');
             this.emit('stop');
             this._audioProcess.kill();
             this._audioProcess = null;
@@ -72,7 +75,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
             this.emit('error', new Error('No audio source to pause'));
         } else {
             if (!this._isPaused) {
-                console.log('player pausing');
+                // console.log('player pausing');
                 this.emit('pause');
                 this._isPaused = true;
                 this._audioProcess.stdin.write('pause\n');
@@ -84,7 +87,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
             this.emit('error', new Error('No audio source to resume'));
         } else {
             if (this._isPaused) {
-                console.log('player resuming');
+                // console.log('player resuming');
                 this._isPaused = false;
                 this._audioProcess.stdin.write('pause\n');
                 this.emit('resume');
@@ -97,7 +100,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
             this.emit('error', new Error('No audio source to mute'));
         } else {
             if (!this._isMuted) {
-                console.log('player muting');
+                // console.log('player muting');
                 this.emit('mute');
                 this._isMuted = true;
                 this._audioProcess.stdin.write('mute\n');
@@ -110,7 +113,7 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
             this.emit('error', new Error('No audio source to unmute'));
         } else {
             if (this._isMuted) {
-                console.log('player unmuting');
+                // console.log('player unmuting');
                 this.emit('unmute');
                 this._isMuted = true;
                 this._audioProcess.stdin.write('mute\n');
@@ -142,49 +145,69 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
     }
 
     private handlePlay(path: string, options: any): void {
+        let buffer = new Buffer('');
         const args: string[] = ['-slave', path];
         this._audioProcess = spawn(this._player, args, options);
 
         const rexStart = new RegExp(AudioPlayer.KEYWORD_STARTING);
         const rexEnd = new RegExp(AudioPlayer.KEYWORD_EXITING);
 
+
+        this._audioProcess.on('close', (code: number, signal: string) => {
+            this.reset();
+            if (buffer.length > 0) {
+                this.emit('error', new Error(buffer.toString()));
+            } else {
+                this.logger('child process closed with code:' + code + ' and signal:' + signal);
+                this.emit('close');
+            }
+        });
+
+        this._audioProcess.on('error', (err: Error) => {
+            this.logger('child process error' + err);
+            this.reset();
+            this.emit('error', err);
+        });
+
+        this._audioProcess.on('exit', (code: number | null, signal: string | null) => {
+            this.reset();
+            if (buffer.length === 0) {
+                this.logger('child process exited with code:' + code + ' and signal:' + signal);
+                this.emit('exit');
+            }
+        });
+
+        this._audioProcess.on('message', (msg: any)  => {
+            this.logger('child process message event: ' + msg);
+            this.emit('message', msg);
+        });
+
         this._audioProcess.stdout.on('data', (chunk: any) => {
             const output: string = chunk.toString();
             if (output.substr(0, 2) === AudioPlayer.KEYWORD_PROGRESS) {
-                // console.log('player progress', output);
+                // this.logger('player progress:' + output);
                 this.emit('progress', output);
             } else {
                 if (output.match(rexStart)) {
-                    // console.log('player starting');
+                    this.logger('player starting');
                     this.emit('start');
-                } else if (output.match(rexEnd)) {
-                    // console.log('player ending');
+                } else if (output.match(rexEnd) && buffer.length === 0) {
+                    this.logger('player ending');
                     this.emit('end');
                 }
             }
         });
 
-        this._audioProcess.on('exit', (code: number | null, signal: string | null) => {
-            // console.log('child process exited with ' + 'code ${code} and signal ${signal}');
-            this.reset();
-            this.emit('exit');
+        this._audioProcess.stderr.on('data', (chunk: any) => {
+            buffer += chunk;
+            // console.log('from stderr', buffer.toString());
         });
+    }
 
-        this._audioProcess.on('close', (code: number, signal: string) => {
-            // console.log('child process closed with ' + 'code ${code} and signal ${signal}');
-            this.reset();
-            this.emit('close');
-        });
-
-        this._audioProcess.on('message', (msg: any)  => {
-            // console.log('child process message event ', msg);
-            this.emit('message', msg);
-        });
-
-        this._audioProcess.on('error', (err: Error) => {
-            // console.log('child process error', err);
-            this.emit('error', err);
-        });
+    private logger(message: string) {
+        if (this._isDebug) {
+            console.log(message);
+        }
     }
 }
 

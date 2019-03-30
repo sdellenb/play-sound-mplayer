@@ -34,6 +34,10 @@ player.on('end', () => {
   // Do something here when the audio finishes playing
 });
 
+player.on('error', (error: Error) => {
+  // Do something here when an error thrown
+});
+
 player.play('./test/sound.mp3');
 ```
 

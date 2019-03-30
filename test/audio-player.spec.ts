@@ -74,7 +74,7 @@ describe('AudioPlayer Test Suite', () => {
         });
     });
 
-   describe('Player Events Tests', () => {
+   xdescribe('Player Start Tests', () => {
         beforeEach(function () {
             // runs before each test in this block
             subject = new AudioPlayer();
@@ -99,7 +99,7 @@ describe('AudioPlayer Test Suite', () => {
             });
         });
     });
-    describe('Player Epecific Events Tests', () => {
+    xdescribe('Player Stop Tests', () => {
         it('stop playing should emit a stop event', (done) => {
             subject = new AudioPlayer();
             subject.play('./test/sound.mp3', {});
@@ -112,7 +112,7 @@ describe('AudioPlayer Test Suite', () => {
 
     });
 
-    describe('Player Single Events Tests', () => {
+    xdescribe('Player Single Events Tests', () => {
         afterEach(function () {
             // runs before each test in this block
             subject.stop();
@@ -161,5 +161,14 @@ describe('AudioPlayer Test Suite', () => {
             subject.setVolume(40);
         });
 
+    });
+    xdescribe('Player Errorhandler Tests', () => {
+        it('start playing with invalid source should emit an error event', (done) => {
+            subject = new AudioPlayer();
+            subject.play('x./test/sound.mp3', { }, true);
+            subject.on('error', (error: any) => {
+                done();
+            });
+        });
     });
 });
