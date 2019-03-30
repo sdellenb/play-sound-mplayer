@@ -23,12 +23,13 @@ export declare class AudioPlayer extends EventEmitter implements IAudioPlayer {
     private _isPaused;
     private _isMuted;
     private _currentVolume;
+    private _isDebug;
     constructor();
     readonly isPlaying: boolean;
     readonly isPaused: boolean;
     readonly isMuted: boolean;
     readonly currentVolume: number;
-    play(path: string, options?: any): void;
+    play(path: string, options?: any, debug?: boolean): void;
     stop(): void;
     pause(): void;
     resume(): void;
@@ -37,5 +38,6 @@ export declare class AudioPlayer extends EventEmitter implements IAudioPlayer {
     setVolume(volRel: number): void;
     private reset;
     private handlePlay;
+    private logger;
 }
 export {};

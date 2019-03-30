@@ -2,12 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("mocha");
 var chai_1 = require("chai");
-var AudioPlayer_1 = require("../lib/AudioPlayer");
+var audio_player_1 = require("../lib/audio-player");
 describe('AudioPlayer Test Suite', function () {
     var subject;
     describe('Basic Interface Tests', function () {
         beforeEach(function () {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new audio_player_1.AudioPlayer();
         });
         it('isPlaying should be false before play an audio source', function () {
             chai_1.expect(subject.isPlaying).to.equal(false);
@@ -19,67 +19,25 @@ describe('AudioPlayer Test Suite', function () {
             chai_1.expect(subject.isMuted).to.equal(false);
         });
         it('play emits an error when it is not passed an audio source', function () {
-            try {
-                subject.play('');
-            }
-            catch (error) {
-                chai_1.expect(error).to.exist;
-                chai_1.expect(error.message).to.equal('No audio source specified');
-            }
+            chai_1.expect(function () { subject.play(''); }).to.throw(/No audio source specified/);
         });
         it('stop emits an error when no audio source is playing', function () {
-            try {
-                subject.stop();
-            }
-            catch (error) {
-                chai_1.expect(error).to.exist;
-                chai_1.expect(error.message).to.equal('No audio source to stop');
-            }
+            chai_1.expect(function () { subject.stop(); }).to.throw(/No audio source to stop/);
         });
         it('pause emits an error when no audio source is playing', function () {
-            try {
-                subject.pause();
-            }
-            catch (error) {
-                chai_1.expect(error).to.exist;
-                chai_1.expect(error.message).to.equal('No audio source to pause');
-            }
+            chai_1.expect(function () { subject.pause(); }).to.throw(/No audio source to pause/);
         });
         it('resume emits an error when no audio source is playing', function () {
-            try {
-                subject.resume();
-            }
-            catch (error) {
-                chai_1.expect(error).to.exist;
-                chai_1.expect(error.message).to.equal('No audio source to resume');
-            }
+            chai_1.expect(function () { subject.resume(); }).to.throw(/No audio source to resume/);
         });
         it('mute emits an error when no audio source is playing', function () {
-            try {
-                subject.mute();
-            }
-            catch (error) {
-                chai_1.expect(error).to.exist;
-                chai_1.expect(error.message).to.equal('No audio source to mute');
-            }
+            chai_1.expect(function () { subject.mute(); }).to.throw(/No audio source to mute/);
         });
         it('unMute emits an error when no audio source is playing', function () {
-            try {
-                subject.unMute();
-            }
-            catch (error) {
-                chai_1.expect(error).to.exist;
-                chai_1.expect(error.message).to.equal('No audio source to unmute');
-            }
+            chai_1.expect(function () { subject.unMute(); }).to.throw(/No audio source to unmute/);
         });
         it('setVolume emits an error hhen it is not passed an audio source', function () {
-            try {
-                subject.setVolume(NaN);
-            }
-            catch (error) {
-                chai_1.expect(error).to.exist;
-                chai_1.expect(error.message).to.equal('Invalid volume argument, should between 0 and 100');
-            }
+            chai_1.expect(function () { subject.setVolume(NaN); }).to.throw(/Invalid volume argument, should between 0 and 100/);
         });
         it('setVolume < 0 results a currentVolume of 0', function () {
             chai_1.expect(subject.currentVolume).to.equal(100);
@@ -102,13 +60,13 @@ describe('AudioPlayer Test Suite', function () {
             chai_1.expect(subject.currentVolume).to.equal(30);
         });
     });
-    xdescribe('Player Events Tests', function () {
-        before(function () {
-            subject = new AudioPlayer_1.AudioPlayer();
+    xdescribe('Player Start Tests', function () {
+        beforeEach(function () {
+            subject = new audio_player_1.AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.mute();
         });
-        after(function () {
+        afterEach(function () {
             subject.stop();
         });
         it('start playing should emit a start event', function (done) {
@@ -121,7 +79,12 @@ describe('AudioPlayer Test Suite', function () {
                 done();
             });
         });
-        xit('stop playing should emit a stop event', function (done) {
+    });
+    xdescribe('Player Stop Tests', function () {
+        it('stop playing should emit a stop event', function (done) {
+            subject = new audio_player_1.AudioPlayer();
+            subject.play('./test/sound.mp3', {});
+            subject.mute();
             subject.on('stop', function () {
                 done();
             });
@@ -133,7 +96,7 @@ describe('AudioPlayer Test Suite', function () {
             subject.stop();
         });
         it('mute playing should emit a mute event', function (done) {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new audio_player_1.AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.on('mute', function () {
                 done();
@@ -141,7 +104,7 @@ describe('AudioPlayer Test Suite', function () {
             subject.mute();
         });
         it('unmute playing should emit a unmute event', function (done) {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new audio_player_1.AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.on('unmute', function () {
                 done();
@@ -150,7 +113,7 @@ describe('AudioPlayer Test Suite', function () {
             subject.unMute();
         });
         it('pause playing should emit a pause event', function (done) {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new audio_player_1.AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.on('pause', function () {
                 done();
@@ -158,7 +121,7 @@ describe('AudioPlayer Test Suite', function () {
             subject.pause();
         });
         it('resume playing should emit a resume event', function (done) {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new audio_player_1.AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.pause();
             subject.on('resume', function () {
@@ -167,7 +130,7 @@ describe('AudioPlayer Test Suite', function () {
             subject.resume();
         });
         it('setVolume should emit a volumeupdate event', function (done) {
-            subject = new AudioPlayer_1.AudioPlayer();
+            subject = new audio_player_1.AudioPlayer();
             subject.play('./test/sound.mp3', {});
             subject.on('volumeupdate', function () {
                 done();
@@ -175,5 +138,14 @@ describe('AudioPlayer Test Suite', function () {
             subject.setVolume(40);
         });
     });
+    xdescribe('Player Errorhandler Tests', function () {
+        it('start playing with invalid source should emit an error event', function (done) {
+            subject = new audio_player_1.AudioPlayer();
+            subject.play('x./test/sound.mp3', {}, true);
+            subject.on('error', function (error) {
+                done();
+            });
+        });
+    });
 });
-//# sourceMappingURL=AudioPlayer.spec.js.map
+//# sourceMappingURL=audio-player.spec.js.map

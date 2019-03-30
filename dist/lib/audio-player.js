@@ -25,6 +25,7 @@ var AudioPlayer = (function (_super) {
         _this._isPaused = false;
         _this._isMuted = false;
         _this._currentVolume = 100;
+        _this._isDebug = false;
         return _this;
     }
     Object.defineProperty(AudioPlayer.prototype, "isPlaying", {
@@ -55,8 +56,10 @@ var AudioPlayer = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    AudioPlayer.prototype.play = function (path, options) {
+    AudioPlayer.prototype.play = function (path, options, debug) {
+        if (debug === void 0) { debug = false; }
         options = typeof options === 'object' ? options : {};
+        this._isDebug = debug;
         options.stdio = ['pipe', 'pipe', 'pipe'];
         options.shell = false;
         if (!path) {
@@ -72,7 +75,6 @@ var AudioPlayer = (function (_super) {
             this.emit('error', new Error('No audio source to stop'));
         }
         else {
-            console.log('player stopping');
             this.emit('stop');
             this._audioProcess.kill();
             this._audioProcess = null;
@@ -84,7 +86,6 @@ var AudioPlayer = (function (_super) {
         }
         else {
             if (!this._isPaused) {
-                console.log('player pausing');
                 this.emit('pause');
                 this._isPaused = true;
                 this._audioProcess.stdin.write('pause\n');
@@ -97,7 +98,6 @@ var AudioPlayer = (function (_super) {
         }
         else {
             if (this._isPaused) {
-                console.log('player resuming');
                 this._isPaused = false;
                 this._audioProcess.stdin.write('pause\n');
                 this.emit('resume');
@@ -110,7 +110,6 @@ var AudioPlayer = (function (_super) {
         }
         else {
             if (!this._isMuted) {
-                console.log('player muting');
                 this.emit('mute');
                 this._isMuted = true;
                 this._audioProcess.stdin.write('mute\n');
@@ -123,7 +122,6 @@ var AudioPlayer = (function (_super) {
         }
         else {
             if (this._isMuted) {
-                console.log('player unmuting');
                 this.emit('unmute');
                 this._isMuted = true;
                 this._audioProcess.stdin.write('mute\n');
@@ -154,10 +152,37 @@ var AudioPlayer = (function (_super) {
     };
     AudioPlayer.prototype.handlePlay = function (path, options) {
         var _this = this;
+        var buffer = new Buffer('');
         var args = ['-slave', path];
         this._audioProcess = child_process_1.spawn(this._player, args, options);
         var rexStart = new RegExp(AudioPlayer.KEYWORD_STARTING);
         var rexEnd = new RegExp(AudioPlayer.KEYWORD_EXITING);
+        this._audioProcess.on('close', function (code, signal) {
+            _this.reset();
+            if (buffer.length > 0) {
+                _this.emit('error', new Error(buffer.toString()));
+            }
+            else {
+                _this.logger('child process closed with code:' + code + ' and signal:' + signal);
+                _this.emit('close');
+            }
+        });
+        this._audioProcess.on('error', function (err) {
+            _this.logger('child process error' + err);
+            _this.reset();
+            _this.emit('error', err);
+        });
+        this._audioProcess.on('exit', function (code, signal) {
+            _this.reset();
+            if (buffer.length === 0) {
+                _this.logger('child process exited with code:' + code + ' and signal:' + signal);
+                _this.emit('exit');
+            }
+        });
+        this._audioProcess.on('message', function (msg) {
+            _this.logger('child process message event: ' + msg);
+            _this.emit('message', msg);
+        });
         this._audioProcess.stdout.on('data', function (chunk) {
             var output = chunk.toString();
             if (output.substr(0, 2) === AudioPlayer.KEYWORD_PROGRESS) {
@@ -165,27 +190,23 @@ var AudioPlayer = (function (_super) {
             }
             else {
                 if (output.match(rexStart)) {
+                    _this.logger('player starting');
                     _this.emit('start');
                 }
-                else if (output.match(rexEnd)) {
+                else if (output.match(rexEnd) && buffer.length === 0) {
+                    _this.logger('player ending');
                     _this.emit('end');
                 }
             }
         });
-        this._audioProcess.on('exit', function (code, signal) {
-            _this.reset();
-            _this.emit('exit');
+        this._audioProcess.stderr.on('data', function (chunk) {
+            buffer += chunk;
         });
-        this._audioProcess.on('close', function (code, signal) {
-            _this.reset();
-            _this.emit('close');
-        });
-        this._audioProcess.on('message', function (msg) {
-            _this.emit('message', msg);
-        });
-        this._audioProcess.on('error', function (err) {
-            _this.emit('error', err);
-        });
+    };
+    AudioPlayer.prototype.logger = function (message) {
+        if (this._isDebug) {
+            console.log(message);
+        }
     };
     AudioPlayer.KEYWORD_PROGRESS = 'A:';
     AudioPlayer.KEYWORD_STARTING = 'Starting playback...';
@@ -193,4 +214,4 @@ var AudioPlayer = (function (_super) {
     return AudioPlayer;
 }(events_1.EventEmitter));
 exports.AudioPlayer = AudioPlayer;
-//# sourceMappingURL=AudioPlayer.js.map
+//# sourceMappingURL=audio-player.js.map

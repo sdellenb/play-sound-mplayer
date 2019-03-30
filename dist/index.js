@@ -1,5 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var AudioPlayer_1 = require("./lib/AudioPlayer");
-exports.AudioPlayer = AudioPlayer_1.AudioPlayer;
+var audio_player_1 = require("./lib/audio-player");
+exports.AudioPlayer = audio_player_1.AudioPlayer;
 //# sourceMappingURL=index.js.map
