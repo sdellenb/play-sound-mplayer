@@ -60,7 +60,7 @@ describe('AudioPlayer Test Suite', function () {
             chai_1.expect(subject.currentVolume).to.equal(30);
         });
     });
-    describe('Player Events Tests', function () {
+    xdescribe('Player Start Tests', function () {
         beforeEach(function () {
             subject = new audio_player_1.AudioPlayer();
             subject.play('./test/sound.mp3', {});
@@ -80,7 +80,7 @@ describe('AudioPlayer Test Suite', function () {
             });
         });
     });
-    describe('Player Epecific Events Tests', function () {
+    xdescribe('Player Stop Tests', function () {
         it('stop playing should emit a stop event', function (done) {
             subject = new audio_player_1.AudioPlayer();
             subject.play('./test/sound.mp3', {});
@@ -91,7 +91,7 @@ describe('AudioPlayer Test Suite', function () {
             subject.stop();
         });
     });
-    describe('Player Single Events Tests', function () {
+    xdescribe('Player Single Events Tests', function () {
         afterEach(function () {
             subject.stop();
         });
@@ -136,6 +136,15 @@ describe('AudioPlayer Test Suite', function () {
                 done();
             });
             subject.setVolume(40);
+        });
+    });
+    xdescribe('Player Errorhandler Tests', function () {
+        it('start playing with invalid source should emit an error event', function (done) {
+            subject = new audio_player_1.AudioPlayer();
+            subject.play('x./test/sound.mp3', {}, true);
+            subject.on('error', function (error) {
+                done();
+            });
         });
     });
 });
