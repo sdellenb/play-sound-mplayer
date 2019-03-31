@@ -69,14 +69,14 @@
 				<a href="https://coveralls.io/github/rgsmolin/play-sound-mplayer?branch=develop"><img src="https://coveralls.io/repos/github/rgsmolin/play-sound-mplayer/badge.svg?branch=develop" alt="Coverage Status"></a></p>
 				<h1 id="play-sound-mplayer">play-sound-mplayer</h1>
 				<p>Play sounds by shelling out with MPlayer audio player. Make it easy to play audio in Node.js.</p>
-				<h2 id="this-is-still-a-work-in-progress-and-not-yet-a-final-concept">This is still a work in progress and not yet a final concept</h2>
 				<h2 id="installation">Installation</h2>
-				<pre><code>npm install <span class="hljs-keyword">play</span>-<span class="hljs-keyword">sound</span>-mplayer</code></pre><p>Since we use  mplayer over the command-line to facilitate audio playback, you will also need to install a mplayer instance.</p>
+				<pre><code class="language-bash">npm install play-sound-mplayer</code></pre>
+				<p>Since we use  mplayer over the command-line to facilitate audio playback, you will also need to install a mplayer instance.</p>
 				<h2 id="usage">Usage</h2>
 				<h3 id="getting-started">Getting Started</h3>
-				<p>To get started, require the module in your program and create a new AudioPlayer instance. </p>
-				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> AudioPlayer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'play-sound-mplayer'</span>);
-<span class="hljs-keyword">const</span> player = <span class="hljs-keyword">new</span> AudioPlayer();</code></pre>
+				<p>To get started, require the module in your program and create a new AudioPlayer instance.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> mplayer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'play-sound-mplayer'</span>);
+<span class="hljs-keyword">const</span> player = <span class="hljs-keyword">new</span> mplayer.AudioPlayer();</code></pre>
 				<h3 id="play">Play</h3>
 				<p>To play an audio source, use the <code>play</code> function and pass in the file path  or url of the audio source that is to be played:</p>
 				<pre><code class="language-javascript">player.on(<span class="hljs-string">'start'</span>, () =&gt; {
@@ -85,6 +85,10 @@
 
 player.on(<span class="hljs-string">'end'</span>, () =&gt; {
   <span class="hljs-comment">// Do something here when the audio finishes playing</span>
+});
+
+player.on(<span class="hljs-string">'error'</span>, (error: <span class="hljs-built_in">Error</span>) =&gt; {
+  <span class="hljs-comment">// Do something here when an error thrown</span>
 });
 
 player.play(<span class="hljs-string">'./test/sound.mp3'</span>);</code></pre>

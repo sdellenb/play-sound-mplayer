@@ -160,7 +160,8 @@ var AudioPlayer = (function (_super) {
         this._audioProcess.on('close', function (code, signal) {
             _this.reset();
             if (buffer.length > 0) {
-                _this.emit('error', new Error(buffer.toString()));
+                _this.logger('child process error');
+                _this.emit('error', _this.customError('MPlayerError', buffer));
             }
             else {
                 _this.logger('child process closed with code:' + code + ' and signal:' + signal);
@@ -207,6 +208,12 @@ var AudioPlayer = (function (_super) {
         if (this._isDebug) {
             console.log(message);
         }
+    };
+    AudioPlayer.prototype.customError = function (name, buffer) {
+        var err = new Error(buffer.toString());
+        err.name = name;
+        err.stack = '';
+        return err;
     };
     AudioPlayer.KEYWORD_PROGRESS = 'A:';
     AudioPlayer.KEYWORD_STARTING = 'Starting playback...';
