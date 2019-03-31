@@ -156,7 +156,8 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
         this._audioProcess.on('close', (code: number, signal: string) => {
             this.reset();
             if (buffer.length > 0) {
-                this.emit('error', new Error(buffer.toString()));
+                this.logger('child process error');
+                this.emit('error', this.customError('MPlayerError', buffer));
             } else {
                 this.logger('child process closed with code:' + code + ' and signal:' + signal);
                 this.emit('close');
@@ -208,6 +209,13 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
         if (this._isDebug) {
             console.log(message);
         }
+    }
+
+    private customError(name: string, buffer: Buffer): Error {
+        const err = new Error(buffer.toString());
+        err.name = name;
+        err.stack = '';
+        return err;
     }
 }
 

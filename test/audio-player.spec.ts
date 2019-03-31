@@ -166,7 +166,7 @@ describe('AudioPlayer Test Suite', () => {
         it('start playing with invalid source should emit an error event', (done) => {
             subject = new AudioPlayer();
             subject.play('x./test/sound.mp3', { }, true);
-            subject.on('error', (error: any) => {
+            subject.on('error', (error: Error) => {
                 done();
             });
         });

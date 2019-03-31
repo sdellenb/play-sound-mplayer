@@ -1,6 +1,6 @@
 {
   "name": "play-sound-mplayer",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Play sounds by shelling out with MPlayer audio player",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

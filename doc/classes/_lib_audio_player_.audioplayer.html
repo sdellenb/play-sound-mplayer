@@ -103,6 +103,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#_audioprocess" class="tsd-kind-icon">_audio<wbr>Process</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#_currentvolume" class="tsd-kind-icon">_current<wbr>Volume</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#_isdebug" class="tsd-kind-icon">_is<wbr>Debug</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#_ismuted" class="tsd-kind-icon">_is<wbr>Muted</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#_ispaused" class="tsd-kind-icon">_is<wbr>Paused</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#_isplaying" class="tsd-kind-icon">_is<wbr>Playing</a></li>
@@ -126,12 +127,14 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#addlistener" class="tsd-kind-icon">add<wbr>Listener</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#customerror" class="tsd-kind-icon">custom<wbr>Error</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#emit" class="tsd-kind-icon">emit</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#eventnames" class="tsd-kind-icon">event<wbr>Names</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#getmaxlisteners" class="tsd-kind-icon">get<wbr>Max<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#handleplay" class="tsd-kind-icon">handle<wbr>Play</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#listenercount" class="tsd-kind-icon">listener<wbr>Count</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#listeners" class="tsd-kind-icon">listeners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#logger" class="tsd-kind-icon">logger</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#mute" class="tsd-kind-icon">mute</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#off" class="tsd-kind-icon">off</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="_lib_audio_player_.audioplayer.html#on" class="tsd-kind-icon">on</a></li>
@@ -167,7 +170,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L30">lib/audio-player.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L32">lib/audio-player.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_lib_audio_player_.audioplayer.html" class="tsd-signature-type">AudioPlayer</a></h4>
@@ -183,7 +186,7 @@
 					<div class="tsd-signature tsd-kind-icon">_audio<wbr>Process<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ChildProcess</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L25">lib/audio-player.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L25">lib/audio-player.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -193,7 +196,17 @@
 					<div class="tsd-signature tsd-kind-icon">_current<wbr>Volume<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;100</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L30">lib/audio-player.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L30">lib/audio-player.ts:30</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
+					<a name="_isdebug" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _is<wbr>Debug</h3>
+					<div class="tsd-signature tsd-kind-icon">_is<wbr>Debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L32">lib/audio-player.ts:32</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -203,7 +216,7 @@
 					<div class="tsd-signature tsd-kind-icon">_is<wbr>Muted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L29">lib/audio-player.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L29">lib/audio-player.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -213,7 +226,7 @@
 					<div class="tsd-signature tsd-kind-icon">_is<wbr>Paused<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L28">lib/audio-player.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L28">lib/audio-player.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -223,7 +236,7 @@
 					<div class="tsd-signature tsd-kind-icon">_is<wbr>Playing<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L27">lib/audio-player.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L27">lib/audio-player.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -233,7 +246,7 @@
 					<div class="tsd-signature tsd-kind-icon">_player<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;mplayer&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L24">lib/audio-player.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L24">lib/audio-player.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -243,7 +256,7 @@
 					<div class="tsd-signature tsd-kind-icon">KEYWORD_<wbr>EXITING<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"Exiting..."</span><span class="tsd-signature-symbol"> =&nbsp;&quot;Exiting...&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L22">lib/audio-player.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L22">lib/audio-player.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -253,7 +266,7 @@
 					<div class="tsd-signature tsd-kind-icon">KEYWORD_<wbr>PROGRESS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"A:"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;A:&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L20">lib/audio-player.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L20">lib/audio-player.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -263,7 +276,7 @@
 					<div class="tsd-signature tsd-kind-icon">KEYWORD_<wbr>STARTING<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"Starting playback..."</span><span class="tsd-signature-symbol"> =&nbsp;&quot;Starting playback...&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L21">lib/audio-player.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L21">lib/audio-player.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -291,7 +304,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L45">lib/audio-player.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L47">lib/audio-player.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -308,7 +321,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L42">lib/audio-player.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L44">lib/audio-player.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -325,7 +338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L39">lib/audio-player.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L41">lib/audio-player.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -342,7 +355,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L36">lib/audio-player.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L38">lib/audio-player.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -395,6 +408,32 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
+					<a name="customerror" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> custom<wbr>Error</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">custom<wbr>Error<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, buffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L214">lib/audio-player.ts:214</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>buffer: <span class="tsd-signature-type">Buffer</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Error</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -474,7 +513,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L144">lib/audio-player.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L147">lib/audio-player.ts:147</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -540,6 +579,29 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
+					<a name="logger" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> logger</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">logger<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L208">lib/audio-player.ts:208</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>message: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
 					<a name="mute" class="tsd-anchor"></a>
 					<h3>mute</h3>
@@ -551,7 +613,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_lib_audio_player_.iaudioplayer.html">IAudioPlayer</a>.<a href="../interfaces/_lib_audio_player_.iaudioplayer.html#mute">mute</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L95">lib/audio-player.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L98">lib/audio-player.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -707,7 +769,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_lib_audio_player_.iaudioplayer.html">IAudioPlayer</a>.<a href="../interfaces/_lib_audio_player_.iaudioplayer.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L70">lib/audio-player.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L73">lib/audio-player.ts:73</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -718,14 +780,13 @@
 					<a name="play" class="tsd-anchor"></a>
 					<h3>play</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">play<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">play<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, debug<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/_lib_audio_player_.iaudioplayer.html">IAudioPlayer</a>.<a href="../interfaces/_lib_audio_player_.iaudioplayer.html#play">play</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L49">lib/audio-player.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L51">lib/audio-player.ts:51</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -735,6 +796,9 @@
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> debug: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -939,7 +1003,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L137">lib/audio-player.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L140">lib/audio-player.ts:140</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -957,7 +1021,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_lib_audio_player_.iaudioplayer.html">IAudioPlayer</a>.<a href="../interfaces/_lib_audio_player_.iaudioplayer.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L82">lib/audio-player.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L85">lib/audio-player.ts:85</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1000,7 +1064,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_lib_audio_player_.iaudioplayer.html">IAudioPlayer</a>.<a href="../interfaces/_lib_audio_player_.iaudioplayer.html#setvolume">setVolume</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L120">lib/audio-player.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L123">lib/audio-player.ts:123</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1024,7 +1088,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_lib_audio_player_.iaudioplayer.html">IAudioPlayer</a>.<a href="../interfaces/_lib_audio_player_.iaudioplayer.html#stop">stop</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L60">lib/audio-player.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L63">lib/audio-player.ts:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1042,7 +1106,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_lib_audio_player_.iaudioplayer.html">IAudioPlayer</a>.<a href="../interfaces/_lib_audio_player_.iaudioplayer.html#unmute">unMute</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/cc33366/lib/audio-player.ts#L108">lib/audio-player.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/rgsmolin/play-sound-mplayer/blob/52399af/lib/audio-player.ts#L111">lib/audio-player.ts:111</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1122,6 +1186,9 @@
 								<a href="_lib_audio_player_.audioplayer.html#_currentvolume" class="tsd-kind-icon">_current<wbr>Volume</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
+								<a href="_lib_audio_player_.audioplayer.html#_isdebug" class="tsd-kind-icon">_is<wbr>Debug</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="_lib_audio_player_.audioplayer.html#_ismuted" class="tsd-kind-icon">_is<wbr>Muted</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
@@ -1160,6 +1227,9 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_lib_audio_player_.audioplayer.html#addlistener" class="tsd-kind-icon">add<wbr>Listener</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
+								<a href="_lib_audio_player_.audioplayer.html#customerror" class="tsd-kind-icon">custom<wbr>Error</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_lib_audio_player_.audioplayer.html#emit" class="tsd-kind-icon">emit</a>
 							</li>
@@ -1177,6 +1247,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="_lib_audio_player_.audioplayer.html#listeners" class="tsd-kind-icon">listeners</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
+								<a href="_lib_audio_player_.audioplayer.html#logger" class="tsd-kind-icon">logger</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
 								<a href="_lib_audio_player_.audioplayer.html#mute" class="tsd-kind-icon">mute</a>

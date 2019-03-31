@@ -39,5 +39,6 @@ export declare class AudioPlayer extends EventEmitter implements IAudioPlayer {
     private reset;
     private handlePlay;
     private logger;
+    private customError;
 }
 export {};
