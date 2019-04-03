@@ -159,9 +159,10 @@ var AudioPlayer = (function (_super) {
         var rexEnd = new RegExp(AudioPlayer.KEYWORD_EXITING);
         this._audioProcess.on('close', function (code, signal) {
             _this.reset();
-            if (buffer.length > 0) {
+            var customError = _this.customError('MPlayerError', buffer);
+            if (customError) {
                 _this.logger('child process error');
-                _this.emit('error', _this.customError('MPlayerError', buffer));
+                _this.emit('error', customError);
             }
             else {
                 _this.logger('child process closed with code:' + code + ' and signal:' + signal);
@@ -210,10 +211,25 @@ var AudioPlayer = (function (_super) {
         }
     };
     AudioPlayer.prototype.customError = function (name, buffer) {
-        var err = new Error(buffer.toString());
-        err.name = name;
-        err.stack = '';
-        return err;
+        var retValue = null;
+        var message = '';
+        if (buffer.length > 0) {
+            var bufferStr = buffer.toString();
+            console.log('Buffer', bufferStr);
+            if (bufferStr.match('File not found')) {
+                message = 'File not found error';
+            }
+            else if (bufferStr.match('HTTP error 400 Bad Request')) {
+                message = ' Http error 400 Bad Request';
+            }
+            else if (bufferStr.match('HTTP error 403 Forbidden')) {
+                message = ' Http error 403 Forbidden';
+            }
+            var err = new Error(message);
+            err.stack = '';
+            retValue = message.length > 0 ? err : null;
+        }
+        return retValue;
     };
     AudioPlayer.KEYWORD_PROGRESS = 'A:';
     AudioPlayer.KEYWORD_STARTING = 'Starting playback...';

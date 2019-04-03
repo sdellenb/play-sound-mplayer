@@ -163,9 +163,25 @@ describe('AudioPlayer Test Suite', () => {
 
     });
     xdescribe('Player Errorhandler Tests', () => {
-        it('start playing with invalid source should emit an error event', (done) => {
+        it('start playing with invalid source file should emit an error event', (done) => {
             subject = new AudioPlayer();
             subject.play('x./test/sound.mp3', { }, true);
+            subject.on('error', (error: Error) => {
+                done();
+            });
+        });
+
+        it('start playing with invalid source url should emit an http 400 bad request error event', (done) => {
+            subject = new AudioPlayer();
+            subject.play('https://xaudiblecdn-vh.akamaihd.net', {}, true);
+            subject.on('error', (error: Error) => {
+                done();
+            });
+        });
+
+        it('start playing with invalid source url should emit an http 403 forbidden error event', (done) => {
+            subject = new AudioPlayer();
+            subject.play('https://xaudiblecdn-vh.akamaihd.net/i/295890/audiblewords/content/bk/argo/002149/V$', {}, true);
             subject.on('error', (error: Error) => {
                 done();
             });
