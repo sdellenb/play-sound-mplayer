@@ -1,3 +1,9 @@
+# [0.1.2](https://github.com/rgsmolin/play-sound-mplayer/compare/master...master) (2019-04-03)
+
+## Fixes
+
+* **errorhandler improved** add handling for invalid streams names
+
 # [0.1.1](https://github.com/rgsmolin/play-sound-mplayer/compare/master...master) (2019-04-03)
 
 ## Fixes

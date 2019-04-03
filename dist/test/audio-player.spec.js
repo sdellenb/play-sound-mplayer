@@ -146,6 +146,13 @@ describe('AudioPlayer Test Suite', function () {
                 done();
             });
         });
+        it('start playing with invalid source url should emit an stream not found error event', function (done) {
+            subject = new audio_player_1.AudioPlayer();
+            subject.play('xhttps://xxaudiblecdn-vh.akamaihd.net', {}, true);
+            subject.on('error', function (error) {
+                done();
+            });
+        });
         it('start playing with invalid source url should emit an http 400 bad request error event', function (done) {
             subject = new audio_player_1.AudioPlayer();
             subject.play('https://xaudiblecdn-vh.akamaihd.net', {}, true);
