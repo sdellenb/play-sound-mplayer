@@ -218,10 +218,12 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
         let message = '';
         if (buffer.length > 0) {
             const bufferStr = buffer.toString();
-            console.log('Buffer', bufferStr);
+            this.logger('Buffer:' + bufferStr);
             if (bufferStr.match('File not found')) {
                 message = 'File not found error';
-            } else if (bufferStr.match('HTTP error 400 Bad Request')) {
+            } else if (bufferStr.match('No stream found to handle')) {
+                message = 'No stream found to handle';
+            }  else if (bufferStr.match('HTTP error 400 Bad Request')) {
                 message = ' Http error 400 Bad Request';
             } else if (bufferStr.match('HTTP error 403 Forbidden')) {
                 message = ' Http error 403 Forbidden';
