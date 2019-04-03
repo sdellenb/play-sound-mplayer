@@ -155,9 +155,11 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
 
         this._audioProcess.on('close', (code: number, signal: string) => {
             this.reset();
-            if (buffer.length > 0) {
+            // check for errors on stderr
+            const customError = this.customError('MPlayerError', buffer);
+            if (customError) {
                 this.logger('child process error');
-                this.emit('error', this.customError('MPlayerError', buffer));
+                this.emit('error', customError);
             } else {
                 this.logger('child process closed with code:' + code + ' and signal:' + signal);
                 this.emit('close');
@@ -211,11 +213,24 @@ export class AudioPlayer extends EventEmitter implements IAudioPlayer {
         }
     }
 
-    private customError(name: string, buffer: Buffer): Error {
-        const err = new Error(buffer.toString());
-        err.name = name;
-        err.stack = '';
-        return err;
+    private customError(name: string, buffer: Buffer): Error | null {
+        let retValue = null;
+        let message = '';
+        if (buffer.length > 0) {
+            const bufferStr = buffer.toString();
+            console.log('Buffer', bufferStr);
+            if (bufferStr.match('File not found')) {
+                message = 'File not found error';
+            } else if (bufferStr.match('HTTP error 400 Bad Request')) {
+                message = ' Http error 400 Bad Request';
+            } else if (bufferStr.match('HTTP error 403 Forbidden')) {
+                message = ' Http error 403 Forbidden';
+            }
+            const err = new Error(message);
+            err.stack = '';
+            retValue = message.length > 0 ? err : null;
+        }
+        return retValue;
     }
 }
 
